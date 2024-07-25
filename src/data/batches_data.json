@@ -1,0 +1,29 @@
+[
+    {
+        "title": "SQL Basics To Advanced Mastery Course",
+        "image": "/batches-thumbnails/sql_basics_course.png",
+        "startDate": "20 Jul 2024",
+        "endDate": "28 Jul 2024",
+        "price": 0,
+        "validityInDays": "180",
+        "isPublished": true
+    },
+    {
+        "title": "30 Days Of Javascript Challenge",
+        "image": "/batches-thumbnails/30_days_js.png",
+        "startDate": "20 Jul 2024",
+        "endDate": "28 Jul 2024",
+        "price": 0,
+        "validityInDays": "180",
+        "isPublished": true
+    },
+    {
+        "title": "Interview Preparation With Javascript 2.0",
+        "image": "/batches-thumbnails/interview_preparations_js_2.png",
+        "startDate": "20 Jul 2024",
+        "endDate": "28 Jul 2024",
+        "price": 0,
+        "validityInDays": "180",
+        "isPublished": true
+    }
+]
