@@ -1,0 +1,37 @@
+[
+    {
+        "_id": "APT-TW01",
+        "title": "Aptitude - Time & Work",
+        "image": "/courses-thumbnails/Aptitude - Time & Work.png",
+        "price": 0,
+        "courseType": "Mock Test"
+    },
+    {
+        "_id": "APT-PS01",
+        "title": "Aptitude - Partnership",
+        "image": "/courses-thumbnails/Aptitude - Partnership.png",
+        "price": 0,
+        "courseType": "Mock Test"
+    },
+    {
+        "_id": "APT-SICI01",
+        "title": "Aptitude - Simple & Compound Interest",
+        "image": "/courses-thumbnails/Aptitude - Simple & Compound Interest.png",
+        "price": 0,
+        "courseType": "Mock Test"
+    },
+    {
+        "_id": "APT-AMA01",
+        "title": "Aptitude - Averages, Mixtures & Allegation",
+        "image": "/courses-thumbnails/Aptitude - Averages, Mixtures & Allegation.png",
+        "price": 0,
+        "courseType": "Mock Test"
+    },
+    {
+        "_id": "INV-JS02",
+        "title": "Interview preparation with JavaScript 2.0",
+        "image": "/courses-thumbnails/Interview preparation with JavaScript 2.0.png",
+        "price": 9000,
+        "courseType": "Course"
+    }
+]
