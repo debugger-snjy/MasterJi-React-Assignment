@@ -15,3 +15,10 @@ An React Assignment by [chaiaurcode.com](https://chaiaurcode.com)
 
 ## public Folder:
 - This Folder Contains the Images that are being used
+
+## Screenshots
+
+![alt text](images/image.png)
+![alt text](images/image-1.png)
+![alt text](image/image-2.png)
+![alt text](images/image.png)
