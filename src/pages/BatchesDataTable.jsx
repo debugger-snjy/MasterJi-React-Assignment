@@ -1,5 +1,5 @@
 // Importing React
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ChaiAurCodeText from '../components/ChaiAurCodeText'
 import ChaiAurCodeIcon from '../components/ChaiAurCodeIcon'
@@ -8,6 +8,45 @@ import batchesData from "../data/batches_data.json"
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Creating Component for Batches Page having the Data Table
 function BatchesDataTable() {
+
+    const [searchedBatches, setSearchedBatches] = useState(batchesData);
+    const [row, setRow] = useState(10)
+
+    const searchInputRef = useRef(null);
+
+    const filterBatches = (searchedTitle) => {
+        if (searchedTitle !== "") {
+            console.log(searchedTitle)
+            const filteredRecords = searchedBatches.filter((batch) => batch.title.includes(searchedTitle) > 0)
+            console.log(filteredRecords)
+            if (filteredRecords.length > 0) {
+                setSearchedBatches(filteredRecords)
+            }
+            else {
+                alert("No records Found for your Search")
+                setSearchedBatches(batchesData)
+            }
+        }
+        else {
+            setSearchedBatches(batchesData)
+        }
+    }
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if ((event.ctrlKey || event.altKey) && event.key === 'k') {
+                if (searchInputRef.current) {
+                    searchInputRef.current.focus();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [setSearchedBatches]);
+
     return (
         <main className='h-screen bg-[#E2BBE9]'>
 
@@ -19,94 +58,53 @@ function BatchesDataTable() {
                 <div className="text-md !text-left font-bold text-3xl">Batches</div>
                 <div className="text-md !text-left font-normal mt-3 text-[#BFBFBF] text-xl">Create learner's batch and share information at the same time.</div>
 
-                <div className="batches-form my-10 !rounded-2xl">
-                    {/* <table className="border border-[#F2F2F2] table-auto w-full rounded-2xl divide-x">
-                        <thead>
-                            <tr className='text-[#4B4747] font-bold  bg-[#F2F2F2] '>
-                                <th className='text-left !py-4 !px-2 !rounded-tl-lg'>Title</th>
-                                <th className='text-left !py-4 !px-2'>Start Date</th>
-                                <th className='text-left !py-4 !px-2'>End Date</th>
-                                <th className='text-left !py-4 !px-2'>Price</th>
-                                <th className='text-left !py-4 !px-2'>Validity/Expiry</th>
-                                <th className='text-left !py-4 !px-2 !rounded-tr-lg'>Status</th>
+                {/* Search Input */}
+                <div className="relative my-5 rounded-md shadow-sm">
+                    <input type="text" ref={searchInputRef} id="search_course" onChange={(e) => e.target.value === "" ? setSearchedBatches(batchesData) : ''} className="bg-white border border-[#BEBEBE] text-[#C8C7C7] focus:text-black text-sm rounded-lg w-3/12 p-2.5 inline" placeholder="Search by Title (alt+k or cmd+k)" required />
+                    <button className="bg-[#6C6BAF] inline btn btn-blue text-white p-2 px-7 mx-3 rounded-md" onClick={() => filterBatches(document.getElementById('search_course').value)}>Search</button>
+                </div>
+
+                <div className="batches-form my-10 mt-5">
+                    <table className="border border-[#8d8c8c] table-auto w-full ">
+                        <thead className=''>
+                            <tr className='text-[#4B4747]  font-bold bg-[#F2F2F2] border-b border-black'>
+                                <th className='text-left !py-4 !px-2 border border-black'>Title</th>
+                                <th className='text-left !py-4 !px-2 border border-black'>Start Date</th>
+                                <th className='text-left !py-4 !px-2 border border-black'>End Date</th>
+                                <th className='text-left !py-4 !px-2 border border-black'>Price</th>
+                                <th className='text-left !py-4 !px-2 border border-black'>Validity/Expiry</th>
+                                <th className='text-left !py-4 !px-2 border border-black '>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                batchesData && batchesData.map((batchRecord) => (
-                                    <tr className='p-2 w-full grid grid-cols-6 divide-x'>
-                                        <td className='text-left py-2 px-1'>
+                                searchedBatches && searchedBatches.map((batchRecord) => (
+                                    <tr className='border-[#8d8c8c]' key={batchRecord.id}>
+                                        <td className='text-left p-4 border-r border-[#8d8c8c]'>
                                             <div className="flex flex-row gap-2 items-center">
                                                 <img src={batchRecord.image} alt="Image" className='h-[60px] w-[106px]' />
                                                 {batchRecord.title}
                                             </div>
                                         </td>
-                                        <td className='block text-left py-2 px-1'>{batchRecord.startDate}</td>
-                                        <td className='block text-left py-2 px-1'>{batchRecord.endDate}</td>
-                                        <td className='block text-left py-2 px-1'>{batchRecord.price}</td>
-                                        <td className='block text-left py-2 px-1'>{batchRecord.validityInDays}</td>
-                                        <td className='block text-left py-2 px-1'>{batchRecord.isPublished}</td>
+                                        <td className='text-left p-4 border-r border-[#8d8c8c]'>{batchRecord.startDate}</td>
+                                        <td className='text-left p-4 border-r border-[#8d8c8c]'>{batchRecord.endDate}</td>
+                                        <td className='text-left p-4 border-r border-[#8d8c8c]'>₹ {batchRecord.price}</td>
+                                        <td className='text-left p-4 border-r border-[#8d8c8c]'>{batchRecord.validityInDays} days</td>
+                                        <td className='text-left p-4'>
+                                            {batchRecord.isPublished ?
+                                                <span className="inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Published</span>
+                                                :
+                                                <span className="inline-flex items-center rounded-md bg-gray-200 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">Unpublished</span>
+                                            }
+                                        </td>
                                     </tr>
                                 ))
                             }
                         </tbody>
-                    </table> */}
-
-                    <table class="min-w-full bg-white border-gray-200">
-                        <thead className=''>
-                            <tr class="w-full bg-gray-100 border-2 border-black border-b text-[#4B4747] rounded-t-2xl">
-                                <th class="py-2 px-4 text-left rounded-tl-lg">Title</th>
-                                <th class="py-2 px-4 text-left border-2 border-[black]">Start Date</th>
-                                <th class="py-2 px-4 text-left border-2 border-[black]">End Date</th>
-                                <th class="py-2 px-4 text-left border-2 border-[black]">Price</th>
-                                <th class="py-2 px-4 text-left border-2 border-[black]">Validity/Expiry</th>
-                                <th class="py-2 px-4 text-left !rounded-tr-2xl">Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr class="">
-                                <td class="py-2 px-4 border-r border-gray-200 flex items-center">
-                                    <img src="/batches-thumbnails/sql_basics_course.png" alt="SQL Course" class="w-12 h-12 mr-4" />
-                                    <span>SQL Basics To Advanced Mastery Course</span>
-                                </td>
-                                <td class="py-2 px-4 border-r border-gray-200">20 Jul 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">28 Jul 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">₹ 0</td>
-                                <td class="py-2 px-4 border-r border-gray-200">180 days</td>
-                                <td class="py-2 px-4 border-r border-gray-200">
-                                    <span class="bg-green-200 text-green-800 py-1 px-3 rounded-full text-sm">Published</span>
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <td class="py-2 px-4 border-r border-gray-200 flex items-center">
-                                    <img src="/batches-thumbnails/30_days_js.png" alt="JavaScript Challenge" class="w-12 h-12 mr-4" />
-                                    <span>30 Days Of Javascript Challenge</span>
-                                </td>
-                                <td class="py-2 px-4 border-r border-gray-200">13 Jul 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">12 Aug 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">₹ 0</td>
-                                <td class="py-2 px-4 border-r border-gray-200">33 days</td>
-                                <td class="py-2 px-4 border-r border-gray-200">
-                                    <span class="bg-gray-200 text-gray-800 py-1 px-3 rounded-full text-sm">Unpublished</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-r border-gray-200 flex items-center">
-                                    <img src="/batches-thumbnails/interview_preparations_js_2.png" alt="Interview Prep" class="w-12 h-12 mr-4" />
-                                    <span>Interview Preparation With Javascript 2.0</span>
-                                </td>
-                                <td class="py-2 px-4 border-r border-gray-200">02 Aug 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">15 Sep 2024</td>
-                                <td class="py-2 px-4 border-r border-gray-200">₹ 10,000</td>
-                                <td class="py-2 px-4 border-r border-gray-200">365 days</td>
-                                <td class="py-2 px-4 border-r border-gray-200">
-                                    <span class="bg-green-200 text-green-800 py-1 px-3 rounded-full text-sm">Published</span>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
+
+
 
                 <ChaiAurCodeIcon />
             </div>
