@@ -1,8 +1,17 @@
-# React + Vite
+# React MasterJi Assignment
+An React Assignment by [chaiaurcode.com](https://chaiaurcode.com)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Pages Folder
+- These are the files that are main pages and rendering the Components on Routing
 
-Currently, two official plugins are available:
+## Data Folder
+- This is the folder that contains the static data for different pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Components Folder
+- This Folder Contains the components
+    - ChaiAurCodeText - For Showing text
+    - ChaiAurCodeIcon - For Showing Icon at bottom
+    - CourseItem - Item to show in course pages
+
+## public Folder:
+- This Folder Contains the Images that are being used
