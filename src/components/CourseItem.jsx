@@ -9,7 +9,7 @@ function CourseItem({ courseData }) {
                 <img src={courseData.image} className='h-[75px] w-[133px]' /> {courseData.title}
             </div>
             <div className="text-black font-bold text-xl">{courseData.price === 0 ? "Free" : `Rs ${courseData.price}`}</div>
-            <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{courseData.courseType}</span>
+            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{courseData.courseType}</span>
         </div>
     )
 }
