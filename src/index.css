@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.vertical-border td {
+    border-right: 1px solid #000000;
+    /* Vertical border */
+}
+
+.vertical-border td:last-child {
+    border-right: none;
+    /* Remove border from the last cell in each row */
+}
