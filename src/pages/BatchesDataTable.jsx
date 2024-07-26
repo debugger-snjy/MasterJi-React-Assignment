@@ -4,13 +4,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import ChaiAurCodeText from '../components/ChaiAurCodeText'
 import ChaiAurCodeIcon from '../components/ChaiAurCodeIcon'
 import batchesData from "../data/batches_data.json"
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Creating Component for Batches Page having the Data Table
 function BatchesDataTable() {
 
     const [searchedBatches, setSearchedBatches] = useState(batchesData);
-    const [row, setRow] = useState(10)
+    const [rowSize, setRowSize] = useState(10)
+    const [page, setPage] = useState(1)
 
     const searchInputRef = useRef(null);
 
@@ -45,10 +47,10 @@ function BatchesDataTable() {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [setSearchedBatches]);
+    }, [setSearchedBatches, setRowSize, setPage]);
 
     return (
-        <main className='h-screen bg-[#E2BBE9]'>
+        <main className='lg:max-h-full h-screen bg-[#E2BBE9] p-10'>
 
             {/* Chai Aur Code Text Component */}
             <ChaiAurCodeText extraClasses='text-[#444B79]' />
@@ -77,8 +79,9 @@ function BatchesDataTable() {
                             </tr>
                         </thead>
                         <tbody>
+                            {console.log("YES: ", searchedBatches.slice(((page * rowSize) - rowSize), (page * rowSize + 1)))}
                             {
-                                searchedBatches && searchedBatches.map((batchRecord) => (
+                                searchedBatches && searchedBatches.slice(((page * rowSize) - rowSize), ((page * rowSize) + 1 > batchesData.length ? batchesData.length : (page * rowSize) + 1)).map((batchRecord) => (
                                     <tr className='border-[#8d8c8c]' key={batchRecord.id}>
                                         <td className='text-left p-4 border-r border-[#8d8c8c]'>
                                             <div className="flex flex-row gap-2 items-center">
@@ -104,9 +107,27 @@ function BatchesDataTable() {
                     </table>
                 </div>
 
+                <div className='flex flex-row items-center justify-end'>
+                    <div className='w-2/12'>
+                        Rows Per Page
+                        <select name="rowSelect" id="rowSelect" onChange={(e) => setRowSize(e.target.value)} className='mx-2 bg-gray-50 border border-[#BEBEBE] text-black text-lg rounded-sm focus:ring-blue-500 focus:border-blue-500 inline w-5/12 p-2.5'>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div className='w-10'>
+                        <ChevronLeft className={`mx-2 block ${page === 1 ? 'text-gray-500' : ''}`} onClick={() => page !== 1 ? setPage(page - 1) : setPage(1)} />
+                    </div>
+                    <div className='w-10'>
+                        <ChevronRight className={`mx-2 block ${page === (batchesData / rowSize) ? ' text-gray-500' : ''}`} onClick={() => page !== (batchesData / rowSize) ? setPage(page + 1) : ''} />
+                    </div>
 
+                </div>
 
-                <ChaiAurCodeIcon />
+                <ChaiAurCodeIcon className='select-none'/>
             </div>
         </main>
     )

@@ -28,7 +28,7 @@ function OTPVerificationForm() {
     }
 
     return (
-        <main className='h-screen bg-[#3F72AF]'>
+        <main className='bg-[#3F72AF] max-h-full p-10'>
 
             {/* Chai Aur Code Text Component */}
             <ChaiAurCodeText extraClasses={`text-white`} />
